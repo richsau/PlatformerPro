@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private Vector3 _velocity;
     private float _yVelocity;
     private bool _canDoubleJump = false;
+    private Animator _anim;
     
     // speed
     // gravity
@@ -27,6 +28,12 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Could not get CharacterController in Player.");
         }
+
+        _anim = GetComponentInChildren<Animator>();
+        if (_anim == null)
+        {
+            Debug.LogError("Could not get Animator in Player.");
+        }
     }
 
     // Update is called once per frame
@@ -37,11 +44,12 @@ public class Player : MonoBehaviour
         // adjust jump height
         // move
 
-        float horizontalInput = Input.GetAxis("Horizontal");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
         if (_characterController.isGrounded == true)
         {
             _direction = new Vector3(0, 0, horizontalInput); // get left-right input
             _velocity = _direction * _speed;
+            _anim.SetFloat("Speed", Mathf.Abs(horizontalInput));
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _yVelocity = _jumpHeight;

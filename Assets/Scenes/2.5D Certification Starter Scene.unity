@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 654370397}
   - component: {fileID: 654370395}
   - component: {fileID: 654370394}
+  - component: {fileID: 654370399}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -226,6 +227,18 @@ Transform:
   - {fileID: 1447136552}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &654370399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654370393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39856b43b67388b43ac9d6146dc8479a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1216695342
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,6 +455,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 197c0e3a3fae1eb47ae904ad1779c083, type: 2}
+    - target: {fileID: 9500000, guid: 7b2eb117a27072f46b11bac53a374847, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
