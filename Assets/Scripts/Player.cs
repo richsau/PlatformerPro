@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private float _yVelocity;
     private bool _canDoubleJump = false;
     private Animator _anim;
+    private bool _jumping = false;
     
     // speed
     // gravity
@@ -39,21 +40,37 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if grounded, calculate movement direction based on input
-        // if jump
-        // adjust jump height
-        // move
+        CalculateMovement();
 
+    }
+
+    void CalculateMovement()
+    {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         if (_characterController.isGrounded == true)
         {
             _direction = new Vector3(0, 0, horizontalInput); // get left-right input
+            if (horizontalInput != 0)
+            {
+                Vector3 facing = transform.localEulerAngles;
+                facing.y = _direction.z > 0 ? 0 : 180;
+                transform.localEulerAngles = facing;
+            }
             _velocity = _direction * _speed;
             _anim.SetFloat("Speed", Mathf.Abs(horizontalInput));
+            if (_jumping == true)
+            {
+                _jumping = false;
+                _anim.SetBool("Jump", _jumping);
+            }
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _yVelocity = _jumpHeight;
                 _canDoubleJump = true;
+                _jumping = true;
+                _anim.SetBool("Jump", _jumping);
+
             }
         }
         else
@@ -62,8 +79,9 @@ public class Player : MonoBehaviour
             {
                 if (_canDoubleJump == true)
                 {
-                    _yVelocity += _jumpHeight;
+                    //_yVelocity += _jumpHeight;
                     _canDoubleJump = false;
+                    //_anim.SetBool("Jump", true);
                 }
             }
             _yVelocity -= _gravity * Time.deltaTime;
@@ -72,6 +90,13 @@ public class Player : MonoBehaviour
         _velocity.y = _yVelocity;
 
         _characterController.Move(_velocity * Time.deltaTime);
-
     }
+
+    public void GrabLedge()
+    {
+        _characterController.enabled = false;  // freeze the player 
+        _anim.SetBool("GrabLedge", true);
+    }
+
+
 }
