@@ -14,7 +14,10 @@ public class Player : MonoBehaviour
     private bool _canDoubleJump = false;
     private Animator _anim;
     private bool _jumping = false;
-    
+    private bool _onLedge = false;
+    //private bool _useGravity = true;
+    private Ledge _activeLedge;
+
     // speed
     // gravity
     // direction
@@ -41,7 +44,15 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
-
+        if (_onLedge == true)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                //_characterController.enabled = true;
+                _anim.SetTrigger("ClimbUp");
+                
+            }
+        }
     }
 
     void CalculateMovement()
@@ -88,15 +99,31 @@ public class Player : MonoBehaviour
         }
 
         _velocity.y = _yVelocity;
-
+        
         _characterController.Move(_velocity * Time.deltaTime);
+        
     }
 
-    public void GrabLedge()
+    public void GrabLedge(Vector3 handPos, Ledge currentLedge)
     {
+        
         _characterController.enabled = false;  // freeze the player 
         _anim.SetBool("GrabLedge", true);
+        _anim.SetFloat("Speed", 0.0f);
+        _anim.SetBool("Jump", false);
+        _onLedge = true;
+        _activeLedge = currentLedge;
+        transform.position = handPos;
     }
+
+    public void ClimbUpComplete()
+    {
+        transform.position = _activeLedge.GetStandPos();
+        _anim.SetBool("GrabLedge", false);
+        _characterController.enabled = true;  // un-freeze the player 
+
+    }
+
 
 
 }
