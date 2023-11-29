@@ -121,7 +121,6 @@ public class Player : MonoBehaviour
         transform.position = _activeLedge.GetStandPos();
         _anim.SetBool("GrabLedge", false);
         _characterController.enabled = true;  // un-freeze the player 
-
     }
 
 
