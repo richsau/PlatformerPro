@@ -99,8 +99,10 @@ public class Player : MonoBehaviour
         }
 
         _velocity.y = _yVelocity;
-        
-        _characterController.Move(_velocity * Time.deltaTime);
+        if (_characterController.enabled == true)
+        {
+            _characterController.Move(_velocity * Time.deltaTime);
+        }
         
     }
 
