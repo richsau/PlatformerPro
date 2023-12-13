@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     private Vector3 _direction;
     private Vector3 _velocity;
     private float _yVelocity;
-    private bool _canDoubleJump = false;
     private Animator _anim;
     private bool _jumping = false;
     private bool _onLedge = false;
@@ -78,23 +77,12 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _yVelocity = _jumpHeight;
-                _canDoubleJump = true;
                 _jumping = true;
                 _anim.SetBool("Jump", _jumping);
-
             }
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (_canDoubleJump == true)
-                {
-                    //_yVelocity += _jumpHeight;
-                    _canDoubleJump = false;
-                    //_anim.SetBool("Jump", true);
-                }
-            }
             _yVelocity -= _gravity * Time.deltaTime;
         }
 
