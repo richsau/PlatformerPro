@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using UnityEngine.Animations;
 
 public class Player : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
     private bool _onLedge = false;
     //private bool _useGravity = true;
     private Ledge _activeLedge;
+    private bool _onLadder = false;
 
     // speed
     // gravity
@@ -57,6 +59,23 @@ public class Player : MonoBehaviour
     void CalculateMovement()
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
+        if (_onLadder == true)
+        {
+            _direction = new Vector3(0, verticalInput, 0);
+            _yVelocity = 2 * _direction.y;
+            _velocity = _direction * _speed;
+            if (verticalInput > 0)
+            {
+                _anim.SetBool("ClimbLadder", true);
+            }
+            else
+            {
+                _anim.SetBool("ClimbLadder", false);
+                _onLadder = false;
+            }
+        }
+        
         if (_characterController.isGrounded == true)
         {
             _direction = new Vector3(0, 0, horizontalInput); // get left-right input
@@ -83,13 +102,17 @@ public class Player : MonoBehaviour
         }
         else
         {
-            _yVelocity -= _gravity * Time.deltaTime;
+            if (_onLadder == false)
+            {
+                _yVelocity -= _gravity * Time.deltaTime;
+            }
         }
 
         _velocity.y = _yVelocity;
         if (_characterController.enabled == true)
         {
             _characterController.Move(_velocity * Time.deltaTime);
+            //Debug.Log("Velocity: " + _velocity.x + " " + _velocity.y + " " + _velocity.z);
         }
         
     }
@@ -104,6 +127,28 @@ public class Player : MonoBehaviour
         _onLedge = true;
         _activeLedge = currentLedge;
         transform.position = handPos;
+    }
+
+
+    public void GrabLadder()
+    {
+        float verticalInput = Input.GetAxisRaw("Vertical");
+
+        if (verticalInput > 0)
+        {
+            _onLadder = true;
+        }
+        else
+        {
+            _onLadder = false;
+        }
+        //_characterController.enabled = false;  // freeze the player 
+        //_anim.SetBool("OnLadder", true);
+        //_anim.SetFloat("Speed", 0.0f);
+        //_anim.SetBool("Jump", false);
+        //_onLadder = true;
+        //_activeLedge = currentLedge;
+        //transform.position = handPos;
     }
 
     public void ClimbUpComplete()
