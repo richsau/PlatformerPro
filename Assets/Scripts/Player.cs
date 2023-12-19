@@ -50,8 +50,8 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 //_characterController.enabled = true;
-                _anim.SetTrigger("ClimbUp");
-                
+                //_anim.SetTrigger("ClimbUp");
+                ClimbLedge();
             }
         }
     }
@@ -117,6 +117,11 @@ public class Player : MonoBehaviour
         
     }
 
+    public void ClimbLedge()
+    {
+        _anim.SetTrigger("ClimbUp");
+    }
+
     public void GrabLedge(Vector3 handPos, Ledge currentLedge)
     {
         
@@ -142,13 +147,6 @@ public class Player : MonoBehaviour
         {
             _onLadder = false;
         }
-        //_characterController.enabled = false;  // freeze the player 
-        //_anim.SetBool("OnLadder", true);
-        //_anim.SetFloat("Speed", 0.0f);
-        //_anim.SetBool("Jump", false);
-        //_onLadder = true;
-        //_activeLedge = currentLedge;
-        //transform.position = handPos;
     }
 
     public void ClimbUpComplete()
