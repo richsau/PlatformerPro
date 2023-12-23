@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-//using UnityEngine.Animations;
 
 public class Player : MonoBehaviour
 {
@@ -15,14 +15,9 @@ public class Player : MonoBehaviour
     private Animator _anim;
     private bool _jumping = false;
     private bool _onLedge = false;
-    //private bool _useGravity = true;
     private Ledge _activeLedge;
     private bool _onLadder = false;
-
-    // speed
-    // gravity
-    // direction
-    // jump height
+    private bool _rolling = false;
 
 
     // Start is called before the first frame update
@@ -49,8 +44,10 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                //_characterController.enabled = true;
-                //_anim.SetTrigger("ClimbUp");
+                ClimbLedge();
+            }
+            if (_onLadder == true)
+            {
                 ClimbLedge();
             }
         }
@@ -99,6 +96,13 @@ public class Player : MonoBehaviour
                 _jumping = true;
                 _anim.SetBool("Jump", _jumping);
             }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                _rolling = true;
+                _anim.SetBool("Roll", _rolling);
+            }
+
         }
         else
         {
@@ -112,7 +116,6 @@ public class Player : MonoBehaviour
         if (_characterController.enabled == true)
         {
             _characterController.Move(_velocity * Time.deltaTime);
-            //Debug.Log("Velocity: " + _velocity.x + " " + _velocity.y + " " + _velocity.z);
         }
         
     }
@@ -153,9 +156,15 @@ public class Player : MonoBehaviour
     {
         transform.position = _activeLedge.GetStandPos();
         _anim.SetBool("GrabLedge", false);
+        _anim.SetBool("ClimbLadder", false);
+        _onLadder = false;
         _characterController.enabled = true;  // un-freeze the player 
     }
 
-
-
+    public void RollingComplete()
+    {
+        Debug.Log("Roll Done");
+        _rolling = false;
+        _anim.SetBool("Roll", _rolling);
+    }
 }
