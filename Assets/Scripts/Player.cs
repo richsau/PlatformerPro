@@ -18,6 +18,10 @@ public class Player : MonoBehaviour
     private Ledge _activeLedge;
     private bool _onLadder = false;
     private bool _rolling = false;
+    private float _runningCenter = 0;
+    private float _rollingCenter = -0.5f;
+    private float _runningHeight = 2;
+    private float _rollingHeight = 0.9f;
 
 
     // Start is called before the first frame update
@@ -75,7 +79,10 @@ public class Player : MonoBehaviour
         
         if (_characterController.isGrounded == true)
         {
-            _direction = new Vector3(0, 0, horizontalInput); // get left-right input
+            if (_rolling != true)
+            {
+                _direction = new Vector3(0, 0, horizontalInput); // get left-right input
+            }
             if (horizontalInput != 0)
             {
                 Vector3 facing = transform.localEulerAngles;
@@ -90,17 +97,21 @@ public class Player : MonoBehaviour
                 _anim.SetBool("Jump", _jumping);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && (_rolling == false))
             {
                 _yVelocity = _jumpHeight;
                 _jumping = true;
                 _anim.SetBool("Jump", _jumping);
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) && (Mathf.Abs(_direction.z) == 1))
             {
                 _rolling = true;
                 _anim.SetBool("Roll", _rolling);
+                var center = _characterController.center;
+                center = new Vector3(center.x, _rollingCenter, center.z);
+                _characterController.center = center;
+                _characterController.height = _rollingHeight;
             }
 
         }
@@ -164,6 +175,11 @@ public class Player : MonoBehaviour
     public void RollingComplete()
     {
         Debug.Log("Roll Done");
+        
+        var center = _characterController.center;
+        center = new Vector3(center.x, _runningCenter, center.z);
+        _characterController.center = center;
+        _characterController.height = _runningHeight;
         _rolling = false;
         _anim.SetBool("Roll", _rolling);
     }
