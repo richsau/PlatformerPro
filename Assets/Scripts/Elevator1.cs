@@ -46,6 +46,7 @@ public class Elevator1 : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            Debug.Log("OnElevator");
             other.transform.parent = this.transform;
         }
     }
@@ -54,6 +55,7 @@ public class Elevator1 : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            Debug.Log("OffElevator");
             other.transform.parent = null;
         }
     }
