@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
     private TMP_Text _playerScore;
     [SerializeField]
     private TMP_Text _playerTime;
+    [SerializeField]
+    private TMP_Text _instructionText;
 
 
     public void UpdateScore(int score)
@@ -28,5 +30,4 @@ public class UIManager : MonoBehaviour
         }
         _playerTime.text = "Time: " + time;
     }
-
 }
