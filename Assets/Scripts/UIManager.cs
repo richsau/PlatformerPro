@@ -13,13 +13,13 @@ public class UIManager : MonoBehaviour
     private TMP_Text _instructionText;
 
 
-    public void UpdateScore(int score)
+    public void UpdateScore(string score)
     {
         if (_playerScore == null)
         {
             Debug.LogError("_playerScore NULL in UIManager.");
         }
-        _playerScore.text = "Score: " + score;
+        _playerScore.text = "Fires: " + score;
     }
 
     public void UpdateTime(string time)
