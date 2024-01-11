@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip _fireAudioClip;
     private CharacterController _characterController;
     private float _speed = 9.0f;
     private float _gravity = 30.0f;
@@ -22,6 +24,7 @@ public class Player : MonoBehaviour
     private float _rollingCenter = -0.5f;
     private float _runningHeight = 2;
     private float _rollingHeight = 0.9f;
+    private AudioSource _audioSource;
 
 
     // Start is called before the first frame update
@@ -37,6 +40,12 @@ public class Player : MonoBehaviour
         if (_anim == null)
         {
             Debug.LogError("Could not get Animator in Player.");
+        }
+
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            Debug.LogError("Could not find AudioSource in Player.");
         }
     }
 
@@ -130,6 +139,18 @@ public class Player : MonoBehaviour
         }
         
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Got Player Collosion");
+        if (other.tag == "Fire")
+        {
+            _audioSource.clip = _fireAudioClip;
+            _audioSource.Play();
+            Destroy(other.gameObject);
+        }
+    }
+
 
     public void ClimbLedge()
     {
