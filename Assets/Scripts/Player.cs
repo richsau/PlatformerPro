@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip _fireAudioClip;
     private CharacterController _characterController;
+    private GameManager _gameManager;
     private float _speed = 9.0f;
     private float _gravity = 30.0f;
     private float _jumpHeight = 12.0f;
@@ -46,6 +47,11 @@ public class Player : MonoBehaviour
         if (_audioSource == null)
         {
             Debug.LogError("Could not find AudioSource in Player.");
+        }
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if (_gameManager == null)
+        {
+            Debug.LogError("Could not get GameManager in Player.");
         }
     }
 
@@ -147,6 +153,7 @@ public class Player : MonoBehaviour
         {
             _audioSource.clip = _fireAudioClip;
             _audioSource.Play();
+            _gameManager.AddScore();
             Destroy(other.gameObject);
         }
     }

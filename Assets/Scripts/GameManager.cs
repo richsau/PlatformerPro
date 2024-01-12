@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip _collectedAllAudioClip;
     private int _score = 0;
     private float _currentTime = 0f;
     private UIManager _uiManager;
     private bool _gameRunning = false;
-
+    private AudioSource _audioSource;
 
 
 
@@ -20,6 +22,13 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("Could not find UIManager in GameManager.");
         }
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            Debug.LogError("Could not find AudioSource in GameManager.");
+        }
+
+
         //_uiManager.UpdateScore(_score);
         _score = 0;
         _gameRunning = true;
@@ -39,6 +48,11 @@ public class GameManager : MonoBehaviour
     public void AddScore()
     {
         _score++;
+        if (_score >= 10)
+        {
+            _audioSource.clip = _collectedAllAudioClip;
+            _audioSource.Play();
+        }
         //_uiManager.UpdateScore(_score);
     }
 
