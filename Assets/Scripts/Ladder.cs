@@ -9,7 +9,6 @@ public class Ladder : MonoBehaviour
     {
         if (other.CompareTag("LadderChecker"))
         {
-            Debug.Log("Trigger Checker");
             Player player = other.transform.parent.GetComponent<Player>();
             if (player == null)
             {

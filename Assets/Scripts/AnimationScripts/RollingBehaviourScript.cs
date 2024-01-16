@@ -9,7 +9,6 @@ public class RollingBehaviourScript : StateMachineBehaviour
     {
         var player = animator.gameObject.transform.parent.GetComponent<Player>();
 
-        Debug.Log("Rolling State Exit");
         if (player != null)
         {
             player.RollingComplete();

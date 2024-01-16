@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -128,7 +129,6 @@ public class Player : MonoBehaviour
                 _characterController.center = center;
                 _characterController.height = _rollingHeight;
             }
-
         }
         else
         {
@@ -146,9 +146,10 @@ public class Player : MonoBehaviour
         
     }
 
+    
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Got Player Collosion");
         if (other.tag == "Fire")
         {
             _audioSource.clip = _fireAudioClip;
@@ -202,8 +203,6 @@ public class Player : MonoBehaviour
 
     public void RollingComplete()
     {
-        Debug.Log("Roll Done");
-        
         var center = _characterController.center;
         center = new Vector3(center.x, _runningCenter, center.z);
         _characterController.center = center;

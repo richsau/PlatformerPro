@@ -6,6 +6,7 @@ public class PressurePad : MonoBehaviour
 {
     private GameManager _gameManager;
     private MeshRenderer _display;
+    private UIManager _uiManager;
 
     private void Start()
     {
@@ -20,7 +21,11 @@ public class PressurePad : MonoBehaviour
         {
             Debug.LogError("Could not find Display in PressurePad.");
         }
-
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if (_uiManager == null)
+        {
+            Debug.LogError("Could not find UIManager in PressurePad.");
+        }
 
     }
 
@@ -34,6 +39,7 @@ public class PressurePad : MonoBehaviour
                 if (_gameManager.IsEndGame())
                 {
                     player.enabled = false;
+                    _uiManager.DisplayEnd();
                     _gameManager.EndGame();
                 }
             }
